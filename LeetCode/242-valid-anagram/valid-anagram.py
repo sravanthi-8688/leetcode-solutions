@@ -5,7 +5,10 @@ class Solution(object):
         :type t: str
         :rtype: bool
         """
-        if sorted(s)==sorted(t):
-            return True
-        return False
+        letters="abcdefghijklmnopqrstuvwxyz"
+        for i in letters:
+            if s.count(i)!=t.count(i):
+                return False
+        return True
+
         
