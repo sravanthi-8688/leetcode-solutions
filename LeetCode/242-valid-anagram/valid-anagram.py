@@ -5,7 +5,7 @@ class Solution(object):
         :type t: str
         :rtype: bool
         """
-        letters="abcdefghijklmnopqrstuvwxyz"
+        letters="qwertyuiopasdfghjlzxcvbnm"
         for i in letters:
             if s.count(i)!=t.count(i):
                 return False
