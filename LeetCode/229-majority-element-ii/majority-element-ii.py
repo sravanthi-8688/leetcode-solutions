@@ -6,15 +6,12 @@ class Solution(object):
         """
         n=len(nums)
         size=n/3
-        freq={}
         res=[]
+        freq={}
         for i in nums:
             freq[i]=freq.get(i,0)+1
         for k,v in freq.items():
-            if v>size:
+            if v>n/3:
                 res.append(k)
         return res
-
-
-
         
