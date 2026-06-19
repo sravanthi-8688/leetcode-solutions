@@ -1,0 +1,9 @@
+class Solution(object):
+    def largestAltitude(self, gain):
+        curr = 0
+        max_alt = 0
+        for g in gain:
+            curr += g
+            max_alt = max(max_alt, curr)
+        return max_alt
+        
