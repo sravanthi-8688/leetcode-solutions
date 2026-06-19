@@ -4,10 +4,9 @@ class Solution(object):
         :type words: List[str]
         :rtype: str
         """
-        s=""
         for i in words:
             if i==i[::-1]:
-                s=i
-                break
-        return s
+                return i
+                
+        return ""
         
