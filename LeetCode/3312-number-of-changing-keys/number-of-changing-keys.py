@@ -5,8 +5,9 @@ class Solution(object):
         :rtype: int
         """
         count=0
+        s=s.lower()
         for i in range(len(s)-1):
-            if s[i].lower()!=s[i+1].lower():
+            if s[i]!=s[i+1]:
                 count+=1
         return count
 
