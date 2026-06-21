@@ -4,10 +4,10 @@ class Solution(object):
         :type nums: List[int]
         :rtype: List[int]
         """
-        res=[]
-        for i in nums:
-            res.append(i*i)
-        res.sort()
-        return res
-
+        # res=[]
+        # for i in nums:
+        #     res.append(i*i)
+        # res.sort()
+        # return res
+        return sorted(x*x for x in nums)
         
