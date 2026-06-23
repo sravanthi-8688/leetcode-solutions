@@ -5,10 +5,13 @@ class Solution(object):
         :type t: str
         :rtype: bool
         """
-        letters="qwertyuiopasdfghjlzxcvbnm"
-        for i in letters:
-            if s.count(i)!=t.count(i):
-                return False
-        return True
+        # letters="qwertyuiopasdfghjlzxcvbnm"
+        # for i in letters:
+        #     if s.count(i)!=t.count(i):
+        #         return False
+        # return True
+        if sorted(s)==sorted(t):
+            return True
+        return False
 
         
