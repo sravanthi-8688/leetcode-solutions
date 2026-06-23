@@ -4,7 +4,4 @@ class Solution(object):
         :type accounts: List[List[int]]
         :rtype: int
         """
-        rich=0
-        for i in accounts:
-            rich=max(rich,sum(i))
-        return rich
+        return max(sum(i) for i in accounts)
