@@ -10,8 +10,6 @@ class Solution(object):
         #     if s.count(i)!=t.count(i):
         #         return False
         # return True
-        if sorted(s)==sorted(t):
-            return True
-        return False
+        return sorted(s)==sorted(t)
 
         
