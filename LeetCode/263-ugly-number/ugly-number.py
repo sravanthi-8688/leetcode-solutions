@@ -4,12 +4,5 @@ class Solution(object):
         :type n: int
         :rtype: bool
         """
-        if n <= 0:
-            return False
-        
-        for i in [2, 3, 5]:
-            while n % i == 0:
-                n //= i
-        
-        return n == 1
+        return False if n<=0 else (2*3*5)**32 % n == 0
         
