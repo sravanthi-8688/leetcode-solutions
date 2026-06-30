@@ -1,14 +1,15 @@
 class Solution(object):
     def calPoints(self, operations):
-        res = []
-        for i in operations:
-            if i.lstrip('-').isdigit():
-                res.append(int(i))
-            elif i == 'C':
-                res.pop()
-            elif i == 'D':
-                res.append(2 * res[-1])
-            elif i == '+':
-                res.append(res[-1] + res[-2])
+          stack = []
         
-        return sum(res)
+          for op in operations:
+            if op == "+":
+                stack.append(stack[-1] + stack[-2])
+            elif op == "D":
+                stack.append(stack[-1] * 2)
+            elif op == "C":
+                stack.pop()
+            else:
+                stack.append(int(op))
+                
+          return sum(stack)
