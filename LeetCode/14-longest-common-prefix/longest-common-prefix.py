@@ -9,6 +9,7 @@ class Solution(object):
             while not i.startswith(prefix):
                 prefix=prefix[:-1]
         return prefix
+        
 
    
 
