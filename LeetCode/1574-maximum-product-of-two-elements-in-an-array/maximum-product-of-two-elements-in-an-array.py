@@ -4,7 +4,12 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        nums.sort()
-        return (nums[-1]-1)*(nums[-2]-1)
+        n=len(nums)
+        ms=0
+        for i in range(n):
+            for j in range(i+1,n):
+                if (nums[i]-1)*(nums[j]-1)>ms:
+                    ms=(nums[i]-1)*(nums[j]-1)
+        return ms
 
         
