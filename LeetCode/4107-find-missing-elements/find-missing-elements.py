@@ -7,7 +7,7 @@ class Solution(object):
         mini=min(nums)
         maxi=max(nums)
         res=[]
-        for i in range(mini,maxi+1):
+        for i in range(mini,maxi):
             if i not in nums:
                 res.append(i)
         return res
