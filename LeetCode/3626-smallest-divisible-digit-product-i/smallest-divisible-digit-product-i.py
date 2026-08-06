@@ -1,5 +1,10 @@
-class Solution:
-    def smallestNumber(self, n: int, t: int) -> int:
+class Solution(object):
+    def smallestNumber(self, n, t):
+        """
+        :type n: int
+        :type t: int
+        :rtype: int
+        """
         while True:
             product = 1
             x = n
@@ -12,4 +17,5 @@ class Solution:
                 return n
 
             n += 1
+        
         
