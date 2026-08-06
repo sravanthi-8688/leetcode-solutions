@@ -1,14 +1,15 @@
 class Solution:
     def smallestNumber(self, n: int, t: int) -> int:
-        def getDigitMultiply(num):
-            multiplier=1
+        while True:
+            product = 1
+            x = n
 
-            while multiplier>0 and num>0:
-                multiplier*= num%10
-                num//=10
-            return multiplier
-        for num in range(n, 101):
-            if getDigitMultiply(num)%t==0:
-                return num
-        return n
+            while x > 0:
+                product *= x % 10
+                x //= 10
+
+            if product % t == 0:
+                return n
+
+            n += 1
         
