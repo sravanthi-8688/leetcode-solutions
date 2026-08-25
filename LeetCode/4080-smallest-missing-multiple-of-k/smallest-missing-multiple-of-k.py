@@ -6,8 +6,10 @@ class Solution(object):
         :rtype: int
         """
         s=set(nums)
-        temp=k
-        while temp in s:
-            temp+=k
-        return temp
-        
+        m=1
+        while k*m in s:
+            m+=1
+        return m*k
+        # for i in range(1,101):
+        #     if i*k not  in nums:
+        #         return i*k
