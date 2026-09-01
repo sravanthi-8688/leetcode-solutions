@@ -3,78 +3,77 @@ from collections import deque
 
 class Solution:
     def minMoves(self, classroom: List[str], energy: int) -> int:
-        m = len(classroom)
-        n = len(classroom[0])
-
-        id = [[-1] * n for _ in range(m)]
-
-        k = 0
-        sr = 0
-        sc = 0
+        m, n = len(classroom), len(classroom[0])
+        cells = m * n
+        litter_bit = [0] * cells
+        is_reset = [False] * cells
+        start = 0
+        litter_count = 0
 
         for r in range(m):
             for c in range(n):
-                if classroom[r][c] == 'S':
-                    sr = r
-                    sc = c
-                elif classroom[r][c] == 'L':
-                    id[r][c] = k
-                    k += 1
+                pos = r * n + c
+                cell = classroom[r][c]
+                if cell == "S":
+                    start = pos
+                elif cell == "L":
+                    litter_bit[pos] = 1 << litter_count
+                    litter_count += 1
+                elif cell == "R":
+                    is_reset[pos] = True
 
-        if k == 0:
+        if litter_count == 0:
             return 0
 
-        total_mask = (1 << k) - 1
+        mask_count = 1 << litter_count
+        goal = mask_count - 1
+        neighbors = [[] for _ in range(cells)]
 
-        best = [
-            [
-                [-1] * (1 << k)
-                for _ in range(n)
-            ]
-            for _ in range(m)
-        ]
+        for r in range(m):
+            for c in range(n):
+                if classroom[r][c] == "X":
+                    continue
+                pos = r * n + c
+                if r > 0 and classroom[r - 1][c] != "X":
+                    neighbors[pos].append(pos - n)
+                if r + 1 < m and classroom[r + 1][c] != "X":
+                    neighbors[pos].append(pos + n)
+                if c > 0 and classroom[r][c - 1] != "X":
+                    neighbors[pos].append(pos - 1)
+                if c + 1 < n and classroom[r][c + 1] != "X":
+                    neighbors[pos].append(pos + 1)
 
-        queue = deque()
+        best = bytearray(cells * mask_count)
+        start_key = start * mask_count
+        best[start_key] = energy + 1
 
-        best[sr][sc][0] = energy
-        queue.append((sr, sc, 0, energy, 0))
-
-        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        base = energy + 1
+        queue = deque([start_key * base + energy])
+        moves = 0
 
         while queue:
-            r, c, mask, e, moves = queue.popleft()
+            for _ in range(len(queue)):
+                packed = queue.popleft()
+                remaining = packed % base
+                key = packed // base
+                pos, mask = divmod(key, mask_count)
 
-            for dr, dc in directions:
-                nr = r + dr
-                nc = c + dc
-
-                if nr < 0 or nr >= m or nc < 0 or nc >= n:
+                if remaining == 0:
                     continue
 
-                if classroom[nr][nc] == 'X':
-                    continue
+                for nxt in neighbors[pos]:
+                    next_energy = energy if is_reset[nxt] else remaining - 1
+                    next_mask = mask | litter_bit[nxt]
 
-                ne = e - 1
+                    if next_mask == goal:
+                        return moves + 1
 
-                if ne < 0:
-                    continue
+                    next_key = nxt * mask_count + next_mask
+                    stored_energy = next_energy + 1
+                    if stored_energy > best[next_key]:
+                        best[next_key] = stored_energy
+                        queue.append(next_key * base + next_energy)
 
-                nmask = mask
-
-                if classroom[nr][nc] == 'R':
-                    ne = energy
-
-                if classroom[nr][nc] == 'L':
-                    nmask |= 1 << id[nr][nc]
-
-                if nmask == total_mask:
-                    return moves + 1
-
-                if ne <= best[nr][nc][nmask]:
-                    continue
-
-                best[nr][nc][nmask] = ne
-
-                queue.append((nr, nc, nmask, ne, moves + 1))
+            moves += 1
 
         return -1
