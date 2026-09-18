@@ -1,32 +1,23 @@
-class Solution(object):
-    def maxBuilding(self, n, restrictions):
-        """
-        :type n: int
-        :type restrictions: List[List[int]]
-        :rtype: int
-        """
-        restrictions.append([1, 0])
-        restrictions.sort()
+class Solution:
+    def maxBuilding(self, num: int, r: list[list[int]]) -> int:
+        r.append([1, 0])
+        r.sort()
+        n = len(r)
+
+        def yCap(x1, y1, x2, y2):
+            return min(y2, y1 + abs(x2 - x1))
+
+        def yPeak(x1, y1, x2, y2):
+            return (y1 + y2 + x2 - x1) >> 1
         
-        m = len(restrictions)
-        
-        
-        for i in range(1, m):
-            dist = restrictions[i][0] - restrictions[i-1][0]
-            restrictions[i][1] = min(restrictions[i][1], restrictions[i-1][1] + dist)
-            
-        
-        for i in range(m - 2, -1, -1):
-            dist = restrictions[i+1][0] - restrictions[i][0]
-            restrictions[i][1] = min(restrictions[i][1], restrictions[i+1][1] + dist)
-        max_h = 0
-        for i in range(m - 1):
-            id1, h1 = restrictions[i]
-            id2, h2 = restrictions[i+1]
-            peak = (id2 - id1 + h1 + h2) // 2
-            max_h = max(max_h, peak)
-        last_id, last_h = restrictions[-1]
-        max_h = max(max_h, last_h + (n - last_id))
-        
-        return max_h
-        
+        for i in range(1, n):
+            r[i][1] = yCap(*r[i - 1], *r[i])
+
+        for i in range(n - 2, -1, -1):
+            r[i][1] = yCap(*r[i + 1], *r[i])
+
+        res = 0
+        for i in range(1, n):
+            res = max(res, yPeak(*r[i - 1], *r[i]))
+
+        return max(res, r[-1][1] + num - r[-1][0])
