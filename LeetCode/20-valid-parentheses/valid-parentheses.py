@@ -1,7 +1,6 @@
 class Solution(object):
     def isValid(self, s):
-        stack = []
-        
+        stack = [] 
         for ch in s:
             if ch == '(' or ch == '{' or ch == '[':
                 stack.append(ch)
